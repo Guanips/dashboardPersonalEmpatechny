@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Supercyan.FreeSample
-{
-    public class SimpleSampleCharacterControl : MonoBehaviour
+
+    public class PlayerController : MonoBehaviour
     {
+
+        public static PlayerController Instance { get; private set; }
+
+
         private enum ControlMode
         {
             /// <summary>
@@ -49,6 +52,16 @@ namespace Supercyan.FreeSample
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject); // Evita duplicados
+                return;
+            }
+
             if (!m_animator) { gameObject.GetComponent<Animator>(); }
             if (!m_rigidBody) { gameObject.GetComponent<Animator>(); }
         }
@@ -221,4 +234,3 @@ namespace Supercyan.FreeSample
 
         }
     }
-}

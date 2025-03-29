@@ -1,22 +1,35 @@
-using Supercyan.FreeSample;
 using UnityEngine;
 
-public class Minigame_SpaceInvaders : MiniGame
+public class MiniGame_SpaceInvaders : MiniGame
 {
-    [SerializeField] public GameObject playerController;
+    public static MiniGame_SpaceInvaders Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // Evita duplicados
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject); // Mantener al cambiar de escena (opcional)
+    }
 
     public override void StartGame()
     {
         base.StartGame();
-        playerController.GetComponent<SimpleSampleCharacterControl>().EnableControls(false);
-
+        // Habilitar controles de jugador (conforme a tu código)
+        PlayerController.Instance.EnableControls(true);
     }
 
     public override void EndGame()
     {
         base.EndGame();
-        playerController.GetComponent<SimpleSampleCharacterControl>().EnableControls(true);
+        // Deshabilitar controles de jugador
+        PlayerController.Instance.EnableControls(false);
     }
 }
-
-
