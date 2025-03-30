@@ -1,8 +1,10 @@
 Nuestro proyecto consta de dos partes, un juego hecho en unity y una aplicación web.
+los archivos de la aplicacion web se encuentran en la master branch y los archivos del juego en el branch pre-features
 
 Instrucciones de Ejecución:
 -----Parte Juego-----
-
+se encuntra hosteado en https://empatechny.itch.io/way-of-valor-the-game
+para ejecutarlo solo hace falta descargar el ejecutable y correr el programa
 
 -----Parte aplicación web-----
 El frontend se encuentra hosteado en el siguiente link:
