@@ -40,11 +40,11 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Invader"))
+        if(collision.collider.tag == "Invader")
         {
-            Destroy(other.gameObject);
+            Destroy(collision.collider.gameObject);
             DeactivateProjectile();
         }
     }
