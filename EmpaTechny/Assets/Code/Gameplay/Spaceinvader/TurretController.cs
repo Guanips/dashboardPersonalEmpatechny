@@ -8,6 +8,9 @@ public class TurretController : MonoBehaviour
     private RectTransform rectTransform;
     public Canvas canvas;  // Canvas donde se deben instanciar los proyectiles
 
+    public float shootCooldown = 0.4f;  // Cooldown de disparo en segundos
+    private float cooldownTimer = 0f;  // Temporizador de cooldown
+
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();  // Obtiene el RectTransform de la torreta
@@ -16,9 +19,18 @@ public class TurretController : MonoBehaviour
     void Update()
     {
         MovePlayer();
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        // Actualizar el temporizador de cooldown
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;  // Disminuir el temporizador de cooldown
+        }
+
+        // Solo disparar si el temporizador ha llegado a cero y se presiona la tecla de disparo
+        if (Input.GetKeyDown(KeyCode.Space) && cooldownTimer <= 0f)
         {
             Shoot();
+            cooldownTimer = shootCooldown;  // Reiniciar el temporizador de cooldown
         }
     }
 
@@ -52,10 +64,11 @@ public class TurretController : MonoBehaviour
             // Instancia el proyectil en la posición del firePoint
             GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity, canvas.transform);
 
-            // Opcional: si el proyectil tiene un script con un método ActivateProjectile(), lo llamamos
+            // Get the projectile's script component and activate the projectile
             Projectile projectileScript = projectile.GetComponent<Projectile>();
             if (projectileScript != null)
             {
+                // You can pass the shooting position and handle other logic inside the projectile script itself
                 projectileScript.ActivateProjectile(firePoint.position);
             }
         }

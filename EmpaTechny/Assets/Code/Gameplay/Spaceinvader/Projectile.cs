@@ -5,16 +5,18 @@ public class Projectile : MonoBehaviour
     public float speed = 120f;
     private RectTransform rectTransform;
 
+    public float shootCooldown = 1f;
+    private float lastShootTime = 0f;
+
     void Awake()
     {
-        rectTransform = GetComponent<RectTransform>(); // Inicializar en Awake
+        rectTransform = GetComponent<RectTransform>();
         if (rectTransform == null)
         {
             Debug.LogError("RectTransform is missing on Projectile!");
         }
     }
 
-    // Esta función se llamará cuando el proyectil se reutilice
     public void ActivateProjectile(Vector2 position)
     {
         if (rectTransform == null)
@@ -25,6 +27,10 @@ public class Projectile : MonoBehaviour
 
         gameObject.SetActive(true);
         rectTransform.position = position;
+        if (Time.time - lastShootTime >= shootCooldown)
+        {
+            lastShootTime = Time.time;
+        }
     }
 
     void Update()

@@ -89,7 +89,7 @@ public class Survey : MonoBehaviour
 
     private IEnumerator PostResults(string jsonData)
     {
-        string url = "https://backend-dashboard-empatechny.onrender.com/post_pisoreporte"; // Cambia a la URL de tu API
+        string url = "https://backend-dashboard-empatechny.onrender.com/post_reporte"; // Cambia a la URL de tu API
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
