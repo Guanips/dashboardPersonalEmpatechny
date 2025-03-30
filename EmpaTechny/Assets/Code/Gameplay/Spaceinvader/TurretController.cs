@@ -27,8 +27,21 @@ public class TurretController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         Vector2 moveDirection = new Vector2(horizontalInput, 0);
 
-        // Limita el movimiento dentro de los límites del Canvas
-        float newPosX = Mathf.Clamp(rectTransform.anchoredPosition.x + moveDirection.x * moveSpeed * Time.deltaTime, 0, canvas.GetComponent<RectTransform>().rect.width);
+        RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+        // Tamaño real del Canvas
+        float canvasWidth = canvasRect.rect.width;
+        float turretWidth = rectTransform.rect.width; // Ancho de la torreta
+
+        // Nueva posición calculada
+        float newPosX = rectTransform.anchoredPosition.x + moveDirection.x * moveSpeed * Time.deltaTime;
+
+        // Ajustar límites para que la torreta no se salga del Canvas
+        float minX = -canvasWidth / 2 + turretWidth / 2;
+        float maxX = canvasWidth / 2 - turretWidth / 2;
+
+        newPosX = Mathf.Clamp(newPosX, minX, maxX);
+
         rectTransform.anchoredPosition = new Vector2(newPosX, rectTransform.anchoredPosition.y);
     }
 
