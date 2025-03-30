@@ -15,7 +15,7 @@ public class Invader : MonoBehaviour
         rectTransform.anchoredPosition += new Vector2(0, -speed * Time.deltaTime);
 
         // Si el invader sale de la pantalla, lo destruimos
-        if (rectTransform.anchoredPosition.y < -100)
+        if (rectTransform.anchoredPosition.y < -530)
         {
             Destroy(gameObject);
         }
