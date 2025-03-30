@@ -1,39 +1,35 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class InvaderSpawner : MonoBehaviour
 {
-    public GameObject invaderPrefab;   // Prefab del invader (que debe ser un Image en el Canvas)
-    public int rows = 3;
-    public int columns = 5;
-    public float xOffset = 150f;       // Ajusta este valor según el tamaño de los invaders
-    public float yOffset = 150f;       // Ajusta este valor según el tamaño de los invaders
-    public RectTransform canvasRect;   // Referencia al RectTransform del Canvas
+    public GameObject[] invaderPrefabs; // Array con 3 modelos de enemigos
+    public Transform[] spawnPoints; // Array con los 5 puntos de spawn
+    public float spawnInterval = 2f; // Tiempo entre spawns
 
     void Start()
     {
-        SpawnInvaders();
+        InvokeRepeating(nameof(SpawnInvader), 0f, spawnInterval); // Spawnear repetidamente
     }
 
-    private void SpawnInvaders()
+    private void SpawnInvader()
     {
-        // Transformar las posiciones relativas al Canvas
-        for (int row = 0; row < rows; row++)
+        if (spawnPoints.Length == 0 || invaderPrefabs.Length == 0)
         {
-            for (int col = 0; col < columns; col++)
-            {
-                Vector3 spawnPosition = new Vector3(col * xOffset, -row * yOffset, 0);
-
-                // Usar el RectTransform para convertir las coordenadas a coordenadas del Canvas
-                Vector2 localPosition = canvasRect.TransformPoint(spawnPosition);
-
-                // Asegurarse de que las posiciones se queden dentro de los límites del Canvas
-                localPosition.x = Mathf.Clamp(localPosition.x, 0, canvasRect.rect.width);
-                localPosition.y = Mathf.Clamp(localPosition.y, 0, canvasRect.rect.height);
-
-                // Crear el invader dentro del Canvas
-                GameObject invader = Instantiate(invaderPrefab, localPosition, Quaternion.identity, canvasRect);
-                invader.name = "Invader_" + row + "_" + col; // Opcional, para tener nombres únicos
-            }
+            Debug.LogError("Spawn points or invader prefabs not assigned!");
+            return;
         }
+
+        // Selecciona un punto de spawn aleatorio
+        Transform randomSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+        // Selecciona un modelo de enemigo aleatorio
+        GameObject randomPrefab = invaderPrefabs[Random.Range(0, invaderPrefabs.Length)];
+
+        // Crea el invader en ese punto
+        GameObject invader = Instantiate(randomPrefab, randomSpawnPoint.position, Quaternion.identity, randomSpawnPoint.parent);
+
+        // Ajusta la posición para asegurarse de que se alinea correctamente con el UI
+        invader.GetComponent<RectTransform>().anchoredPosition = randomSpawnPoint.GetComponent<RectTransform>().anchoredPosition;
     }
 }
