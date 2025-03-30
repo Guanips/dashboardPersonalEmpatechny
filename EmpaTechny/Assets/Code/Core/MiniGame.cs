@@ -6,12 +6,14 @@ public abstract class MiniGame : MonoBehaviour
 
     public virtual void StartGame()
     {
+        PlayerController.Instance.EnableControls(false);
         isPlaying = true;
         gameObject.SetActive(true);
     }
 
     public virtual void EndGame()
     {
+        PlayerController.Instance.EnableControls(true);
         isPlaying = false;
         gameObject.SetActive(false);
     }

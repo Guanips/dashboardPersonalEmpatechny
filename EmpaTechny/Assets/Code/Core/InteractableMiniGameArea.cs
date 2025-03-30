@@ -26,6 +26,7 @@ public class InteractableMiniGame : MonoBehaviour
     {
         if (miniGame != null)
         {
+            Debug.Log("Inicio minijuego");
             miniGame.GetComponent<MiniGame>().StartGame(); // Inicia el juego asignado
         }
         else

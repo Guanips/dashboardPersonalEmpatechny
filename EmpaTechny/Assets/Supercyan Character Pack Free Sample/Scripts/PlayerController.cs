@@ -231,6 +231,5 @@ using UnityEngine;
         public void EnableControls(bool state) 
         {
                 movingAllowed = state; 
-
         }
     }
