@@ -8,6 +8,7 @@ public class InteractableMiniGame : MonoBehaviour
 
     public GameObject interactionUI; // UI que muestra "Presiona E para jugar"
     private bool isPlayerNearby = false;
+    public GameObject spaceInvadersGO;
 
     private void Start()
     {
@@ -16,8 +17,9 @@ public class InteractableMiniGame : MonoBehaviour
 
     private void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.Space))
         {
+            Debug.Log("Interaccion");
             Interact();
         }
     }
@@ -27,7 +29,9 @@ public class InteractableMiniGame : MonoBehaviour
         if (miniGame != null)
         {
             Debug.Log("Inicio minijuego");
+            spaceInvadersGO.SetActive(true);
             miniGame.GetComponent<MiniGame>().StartGame(); // Inicia el juego asignado
+            
         }
         else
         {
